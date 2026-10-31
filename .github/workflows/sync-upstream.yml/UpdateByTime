@@ -1,0 +1,43 @@
+name: sync-upstream
+
+# 放到 fork 的 .github/workflows/sync-upstream.yml
+# 作用：定时把上游 HSSkyBoy/BBZQ 的 master 合并进本仓库
+
+on:
+  schedule:
+    - cron: "40 19 * * *"   # 每天 UTC 19:40 = 北京时间 03:40
+  workflow_dispatch:         # 也可以在 Actions 页面手动点一下
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Merge upstream master
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/HSSkyBoy/BBZQ.git
+          git fetch upstream master --tags
+          if git merge-base --is-ancestor upstream/master HEAD; then
+            echo "已是最新，无需同步。"
+            exit 0
+          fi
+          git merge --no-edit upstream/master
+          git push origin HEAD:master
+          git push origin --tags || true
+
+      - name: Show recent commits
+        if: always()
+        run: git log --oneline -5
