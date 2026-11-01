@@ -1118,6 +1118,12 @@ class SettingsContentFactory(
             ModuleSettings.KEY_AUTO_LIKE_VIDEO_DETAIL_ENABLED,
             false,
         ),
+        createSwitchRow(
+            context.getString(R.string.playback_share_redirect_to_overflow_title),
+            context.getString(R.string.playback_share_redirect_to_overflow_summary),
+            ModuleSettings.KEY_SHARE_REDIRECT_TO_OVERFLOW_ENABLED,
+            false,
+        ),
     )
 
     private fun liveRows(): List<View> = listOf(
@@ -1399,7 +1405,7 @@ class SettingsContentFactory(
         }
         rows += createClickableInfoRow(
             context.getString(R.string.about_project_repository_title),
-            "HSSkyBoy/BBZQ",
+            "Nk-Be/BBZQ",
         ) {
             openUrl(PROJECT_REPOSITORY_URL)
         }
@@ -4074,7 +4080,7 @@ class SettingsContentFactory(
     private data class MineComponentItem(val name: String)
 
     private companion object {
-        private const val PROJECT_REPOSITORY_URL = "https://github.com/HSSkyBoy/BBZQ"
+        private const val PROJECT_REPOSITORY_URL = "https://github.com/Nk-Be/BBZQ"
         private const val TELEGRAM_CHANNEL_URL = "https://t.me/bbx_show"
         private const val VERSION_TAP_WINDOW_MS = 1500L
         private const val TITLE_KEYWORD_SUMMARY_MAX_ITEMS = 4
